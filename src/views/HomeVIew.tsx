@@ -2,6 +2,8 @@ import React, { useState, useContext, createContext, useEffect } from "react";
 import { ContentCenter } from "../components/contentCenter/ContentCenter";
 import { MyTable } from "../components/table/Table";
 import { Pagination } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+import { Title } from "../components/title/Title";
 
 interface pokemons {
   name: string;
@@ -12,6 +14,8 @@ export const HomeView = () => {
   const [pokemons, setPokemons] = useState<pokemons[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageCounts, setPageCounts] = useState(0);
+
+
 
   useEffect(() => {
     const getData = async () => {
@@ -58,10 +62,10 @@ export const HomeView = () => {
 
   return (
     <ContentCenter>
-      <div>
+      <main>
+      <div >
         <div className="text-center">
-        <h2 className="5xl font-semibold"> Pokemon Tabla </h2>
-
+        <Title title="Pokedex"  />
         </div>
         <MyTable PropsPokemons={pokemons} />
         <Pagination
@@ -70,6 +74,8 @@ export const HomeView = () => {
           onPageChange={onPageChange}
         />
       </div>
+
+      </main>
     </ContentCenter>
   );
 };

@@ -23,6 +23,7 @@ export const NavBar = () => {
            
             <Navbar.Toggle />
             <Navbar.Collapse>
+                
             </Navbar.Collapse>
         </Navbar>
     )
