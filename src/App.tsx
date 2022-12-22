@@ -8,6 +8,7 @@ function App() {
     <div className="dark:bg-gray-700 dark:h-fit" >
       <NavBar />
       <Routes>
+        <Route path='/' element={<HomeView />} />
         <Route path='/:page' element={<HomeView />} />
         <Route path='/choose/:id' element={<Details />} />
       </Routes>
