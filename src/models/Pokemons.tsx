@@ -13,6 +13,7 @@ export interface Pokemon{
             }
         }
     },
+    stats:[]
     abilities:[]
 }
 

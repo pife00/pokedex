@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { Pokemon } from "../models/Pokemons"
 import { CarouselComponent } from '../components/carousel/CarouselComponent'
 import { Title } from "../components/title/Title"
+import { CardComponent } from "../components/card/CardComponent"
 export const Details = () => {
     const { id } = useParams()
     const URL = "https://pokeapi.co/api/v2/pokemon/"
@@ -25,8 +26,8 @@ export const Details = () => {
             let name = json.name;
             let sprites = json.sprites;
             let abilities = json.abilities;
-
-            setPokemon({ name, sprites, abilities })
+            let stats = json.stats;
+            setPokemon({ name, sprites, abilities,stats })
         }
         getPokemon()
     }, [])
@@ -37,6 +38,8 @@ export const Details = () => {
                 <Title title={pokemon?.name}  />
                 
                 <CarouselComponent images={sprites} />
+
+                <CardComponent />
             </div>
         </ContentCenter>
     )
