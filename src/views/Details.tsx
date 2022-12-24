@@ -102,7 +102,6 @@ export const Details = () => {
     let sprites =
       pokemonD.pokemon_v2_pokemon[0].pokemon_v2_pokemonsprites[0].sprites;
     stats = pokemonD.pokemon_v2_pokemon[0].pokemon_v2_pokemonstats;
-    console.log(stats[0].base_stat);
     let json = sprites.replace("\\", "");
 
     Sprites = JSON.parse(json);
@@ -114,14 +113,18 @@ export const Details = () => {
         <p>Loading ...</p>
       ) : (
         <div className="h-screen">
+          <div className="text-left sm:text-center" >
           <Title title={pokemonD.pokemon_v2_pokemon[0].name} />
+          </div>
+
           <CarouselComponent images={Sprites} />
-          {
-            stats.map((el)=><li>{el.base_stat}: {el.pokemon_v2_stat.name} </li>)
-          }
-          <CardComponent />
-          <CardComponent />
-          <CardComponent />
+          
+          <div className=" items-start mt-4 sm:items-center sm:px-72 grid grid-cols-2 sm:grid-cols-3"  >
+            {
+              stats.map(el=><CardComponent key={el.pokemon_v2_stat.name}  stats={el} />)
+            }
+
+          </div>
         </div>
       )}
     </ContentCenter>

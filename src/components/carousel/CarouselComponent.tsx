@@ -20,19 +20,19 @@ type sprites = {
 
 export const CarouselComponent = ({ images }: sprites) => {
   return (
-    <div className="h-56 sm:h-64 xl:h-80 2xl:h-96 bg-gray-400">
+    <div className="h-56 w-full sm:h-64 xl:h-80 2xl:h-96 bg-gray-400">
       <Carousel>
         <div className="flex justify-center">
-          <img className="w-1/3" src={images.front_default} alt="..." />
+          <img className="w-3/4 sm:w-1/3" src={images.front_default} alt="..." />
         </div>
 
         <div className="flex justify-center">
-          <img className="w-1/3" src={images.back_default} alt="..." />
+          <img className="w-3/4 sm:w-1/3" src={images.back_default} alt="..." />
         </div>
 
         <div className="flex justify-center">
           <img
-            className="w-1/6"
+            className="w-2/3 sm:w-1/6"
             src={images.other.dream_world.front_default}
             alt="..."
           />
@@ -40,7 +40,7 @@ export const CarouselComponent = ({ images }: sprites) => {
 
         <div className="flex justify-center">
           <img
-            className="w-1/3"
+            className="w-2/3 sm:w-1/6"
             src={images.other["official-artwork"].front_default}
             alt="..."
           />
@@ -48,7 +48,7 @@ export const CarouselComponent = ({ images }: sprites) => {
 
         <div className="flex justify-center">
           <img
-            className="w-1/3"
+            className="w-2/3 sm:w-1/6"
             src={images.other.home.front_default}
             alt="..."
           />

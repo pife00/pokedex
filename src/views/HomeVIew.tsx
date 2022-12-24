@@ -5,19 +5,31 @@ import { Pagination } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../components/title/Title";
 import { useQuery, gql } from "@apollo/client";
-
+import { SeachInput } from "../components/search/SearchInput";
 
 export const HomeView = () => {
   const navigate = useNavigate();
   const [fromPage, setFromPage] = useState(0);
   const [toPage, setToPage] = useState(20);
+  const [totalPage,setTotalPage] = useState(0)
  
 
   let { page } = useParams();
   if (page == undefined) page = "1";
+
+  const totalPokemons = async () =>{
+    const url =" https://pokeapi.co/api/v2/pokemon/"
+    const response = await fetch(url)
+    const json = await response.json()
+    setTotalPage(Math.ceil(json.count/20))
+  }
   
 
   useEffect(()=>{
+    if(totalPage == 0 ){
+      totalPokemons()
+    }
+    
     onPageChange(+page!)
   },[page])
   
@@ -39,10 +51,9 @@ export const HomeView = () => {
 
   const onPageChange = (pageSelected: number) => {
     
-    let pageP = +page!
     if(pageSelected == 1){
       setFromPage(0);
-      setToPage(pageSelected * 20 + 20);
+      setToPage(20);
       navigate(`/${pageSelected}`);
     }
     if(pageSelected  > 1){
@@ -59,11 +70,14 @@ export const HomeView = () => {
         <div>
           <div className="text-center">
             <Title title="Pokedex" />
-            <Pagination
+            <div className="flex justify-between" >
+            <SeachInput />
+            <Pagination className="mb-2"
               currentPage={+page}
-              totalPages={100}
+              totalPages={totalPage}
               onPageChange={onPageChange}
             />
+            </div>
           </div>
           {loading ? <p>Loading...</p> : <MyTable PropsPokemon={data} />}
         </div>

@@ -8,7 +8,7 @@ const defaultProps ={
 
 export const Title = ({title}:Props) => {
   return (
-    <h1 className="text-3xl font-semibold dark:text-gray-400 m-4 uppercase" > {title} </h1>
+    <h1 className="font-PocketMonk text-3xl font-bold dark:text-gray-400 m-4 uppercase" > {title} </h1>
   )
 }
 

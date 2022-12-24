@@ -26,7 +26,9 @@ export const MyTable: React.FC<Props> = ({ PropsPokemon }: Props) => {
       <Table.Row
         onClick={() => goPagePokemon(pokemons.id)}
         key={Math.random() * 1000000}
-        className="bg-white hover:cursor-pointer dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
+        className="font-PocketMonk bg-white hover:cursor-pointer
+        hover:bg-slate-100
+        dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600"
       >
         <Table.Cell
           

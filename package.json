@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
+    "firebase": "^9.15.0",
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7",
     "graphql": "^16.6.0",

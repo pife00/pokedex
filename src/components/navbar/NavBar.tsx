@@ -15,7 +15,7 @@ export const NavBar = () => {
           className="mr-3 h-6 sm:h-9"
           alt="Flowbite Logo"
         />
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+        <span className="font-PocketMonk self-center whitespace-nowrap text-xl font-semibold dark:text-white">
           Pokemon
         </span>
       </div>
@@ -23,7 +23,7 @@ export const NavBar = () => {
       </Link>
 
       <Navbar.Toggle />
-      <Navbar.Collapse></Navbar.Collapse>
+     {/*  <Navbar.Collapse></Navbar.Collapse> */}
     </Navbar>
   );
 };
