@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../components/title/Title";
 import { useQuery, gql } from "@apollo/client";
 import { SeachInput } from "../components/search/SearchInput";
+import { LandPage } from "../components/landpage/LandPage";
 
 export const HomeView = () => {
   const navigate = useNavigate();
@@ -67,7 +68,8 @@ export const HomeView = () => {
   return (
     <ContentCenter>
       <main>
-        <div>
+        <>
+        <LandPage />
           <div className="text-center">
             <Title title="Pokedex" />
             <div className="flex justify-between" >
@@ -80,7 +82,7 @@ export const HomeView = () => {
             </div>
           </div>
           {loading ? <p>Loading...</p> : <MyTable PropsPokemon={data} />}
-        </div>
+        </>
       </main>
     </ContentCenter>
   );

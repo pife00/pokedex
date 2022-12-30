@@ -7,9 +7,9 @@ export const NavBar = () => {
     navigate(`/${path}`);
   };
   return (
-    <Navbar fluid={true} rounded={true}>
+    <Navbar fluid={true} rounded={true} className="bg-gray-100 shadow-sm" >
       <Link to="/">
-      <div className="flex">
+      <div className="flex sm:ml-48">
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/5/53/Pok%C3%A9_Ball_icon.svg"
           className="mr-3 h-6 sm:h-9"
