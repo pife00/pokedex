@@ -1,89 +1,92 @@
-import React, { useState, useContext, createContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ContentCenter } from "../components/contentCenter/ContentCenter";
 import { MyTable } from "../components/table/Table";
 import { Pagination } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../components/title/Title";
 import { useQuery, gql } from "@apollo/client";
-import { SeachInput } from "../components/search/SearchInput";
+import { InputAutoComplete } from "../components/inputAutocomplete/InputAutoComplete";
 import { LandPage } from "../components/landpage/LandPage";
+import { usePokemonStore } from "../store/pokemon";
+import { get_pokemons } from "../graphql/pokemon";
 
 export const HomeView = () => {
+  const dataPokemons = get_pokemons()
+  
   const navigate = useNavigate();
-  const [fromPage, setFromPage] = useState(0);
-  const [toPage, setToPage] = useState(20);
-  const [totalPage,setTotalPage] = useState(0)
- 
+  const [totalPage, setTotalPage] = useState(0);
 
   let { page } = useParams();
   if (page == undefined) page = "1";
 
-  const totalPokemons = async () =>{
-    const url =" https://pokeapi.co/api/v2/pokemon/"
-    const response = await fetch(url)
-    const json = await response.json()
-    setTotalPage(Math.ceil(json.count/20))
-  }
-  
+  const totalPokemons = async () => {
+    const url = " https://pokeapi.co/api/v2/pokemon/";
+    const response = await fetch(url);
+    const json = await response.json();
+    setTotalPage(Math.ceil(json.count / 20));
+  };
 
-  useEffect(()=>{
-    if(totalPage == 0 ){
-      totalPokemons()
+  useEffect(() => {
+    if (totalPage == 0) {
+      totalPokemons();
     }
-    
-    onPageChange(+page!)
-  },[page])
-  
-  const get_pokemons = gql`  
-  query getPokemon {
-  pokemon_v2_pokemon(where: {id: {_gte: ${fromPage}, _lte: ${toPage}}}) {
-    id
-    name
-    pokemon_v2_pokemontypes {
-      pokemon_v2_type {
-        name
-      }
-    }
-  }
-}
-  `;
 
-  const { loading, error, data } = useQuery(get_pokemons);
+    onPageChange(+page!);
+  }, [page]);
+
+  const { loading, error, data } = useQuery(dataPokemons);
+  const storePokemon = usePokemonStore((state) => state.Pokemon);
+  
+  const toPage = usePokemonStore((state)=>state.toPage)
+  const fromPage = usePokemonStore((state)=>state.fromPage)
+
+  const handlerFrom = usePokemonStore((state)=>state.handlerFrom)
+  const handlerTo = usePokemonStore((state)=>state.handlerTo)
+  const addData = usePokemonStore((state) => state.addData);
+
+  useEffect(() => {
+    if (data != undefined) addData(data);
+  }, [data]);
 
   const onPageChange = (pageSelected: number) => {
-    
-    if(pageSelected == 1){
-      setFromPage(0);
-      setToPage(20);
+    if (pageSelected == 1) {
+      handlerFrom(0);
+      handlerTo(20);
       navigate(`/${pageSelected}`);
     }
-    if(pageSelected  > 1){
-      setFromPage((pageSelected - 1 )  * 20 + 1);
-      setToPage(((pageSelected - 1 ) * 20) + 20);
+    if (pageSelected > 1) {
+      handlerFrom((pageSelected - 1) * 20 + 1);
+      handlerTo((pageSelected - 1) * 20 + 20);
       navigate(`/${pageSelected}`);
     }
-
   };
 
   return (
-    <ContentCenter>
-      <main>
+    <main>
+      <LandPage />
+
+      <ContentCenter>
         <>
-        <LandPage />
           <div className="text-center">
             <Title title="Pokedex" />
-            <div className="flex justify-between" >
-            <SeachInput />
-            <Pagination className="mb-2"
-              currentPage={+page}
-              totalPages={totalPage}
-              onPageChange={onPageChange}
-            />
+
+            <div className="flex justify-between">
+              <InputAutoComplete />
+              <Pagination
+                className="mb-2"
+                currentPage={+page}
+                totalPages={totalPage}
+                onPageChange={onPageChange}
+              />
             </div>
           </div>
-          {loading ? <p>Loading...</p> : <MyTable PropsPokemon={data} />}
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <MyTable PropsPokemon={storePokemon} />
+          )}
         </>
-      </main>
-    </ContentCenter>
+      </ContentCenter>
+    </main>
   );
 };

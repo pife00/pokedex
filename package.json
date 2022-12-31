@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.3",
+    "@reduxjs/toolkit": "^1.9.1",
     "firebase": "^9.15.0",
     "flowbite": "^1.5.5",
     "flowbite-react": "^0.3.7",
@@ -19,7 +20,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.5.0",
-    "sort-by": "^0.0.2"
+    "simple-zustand-devtools": "^1.1.0",
+    "sort-by": "^0.0.2",
+    "zustand": "^4.1.5"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
