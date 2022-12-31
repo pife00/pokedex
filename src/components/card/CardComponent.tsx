@@ -32,10 +32,13 @@ export const CardComponent: React.FC<Props> = ({ stats }) => {
         
     },[showIcon])
     return (
-        <Card className="w-28 rounded-md " >
+        <Card >
             <div className="text-center" >
                 <h5 className="uppercase text-lg font-bold tracking-tight text-gray-900 dark:text-white">
+                <div className="flex justify-center" >
                 <div dangerouslySetInnerHTML={{ __html: showIcon }} />
+
+                </div>
                 <small className="text-xs font-normal" > {
                 stats.pokemon_v2_stat.name
                 } </small>

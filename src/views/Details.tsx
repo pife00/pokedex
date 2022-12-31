@@ -116,10 +116,9 @@ export const Details = () => {
           <div className="text-left sm:text-center" >
           <Title title={pokemonD.pokemon_v2_pokemon[0].name} />
           </div>
-
-          <CarouselComponent images={Sprites} />
           
-          <div className=" items-start mt-4 sm:items-center sm:px-72 grid grid-cols-2 sm:grid-cols-3"  >
+          <CarouselComponent images={Sprites} />    
+          <div className=" items-start mt-4 gap-2 sm:items-center sm:px-72 grid grid-cols-2 sm:grid-cols-3"  >
             {
               stats.map(el=><CardComponent key={el.pokemon_v2_stat.name}  stats={el} />)
             }

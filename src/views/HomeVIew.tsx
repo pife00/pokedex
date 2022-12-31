@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ContentCenter } from "../components/contentCenter/ContentCenter";
-import { MyTable } from "../components/table/Table";
+import { PokemonsShow } from "../components/table/PokemonsShow";
 import { Pagination } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../components/title/Title";
@@ -9,10 +9,12 @@ import { InputAutoComplete } from "../components/inputAutocomplete/InputAutoComp
 import { LandPage } from "../components/landpage/LandPage";
 import { usePokemonStore } from "../store/pokemon";
 import { get_pokemons } from "../graphql/pokemon";
+import { PokemonGroup } from "../models/Pokemons";
+
 
 export const HomeView = () => {
   const dataPokemons = get_pokemons()
-  
+
   const navigate = useNavigate();
   const [totalPage, setTotalPage] = useState(0);
 
@@ -35,17 +37,30 @@ export const HomeView = () => {
   }, [page]);
 
   const { loading, error, data } = useQuery(dataPokemons);
-  const storePokemon = usePokemonStore((state) => state.Pokemon);
-  
-  const toPage = usePokemonStore((state)=>state.toPage)
-  const fromPage = usePokemonStore((state)=>state.fromPage)
 
-  const handlerFrom = usePokemonStore((state)=>state.handlerFrom)
-  const handlerTo = usePokemonStore((state)=>state.handlerTo)
+  const storePokemon = usePokemonStore((state) => state.Pokemon);
   const addData = usePokemonStore((state) => state.addData);
+  const addSprites = usePokemonStore((state) => state.addSprites)
+  const handlerFrom = usePokemonStore((state) => state.handlerFrom)
+  const handlerTo = usePokemonStore((state) => state.handlerTo)
+
+  const updateStore = async (data: PokemonGroup) => {
+    if (data != undefined) {
+      addData(data);
+      let onlySprites: any[] = []
+
+      data.pokemon_v2_pokemon.map((el, index) => {
+        let rawJson = el.pokemon_v2_pokemonsprites[0].sprites
+        let json = rawJson.replace("\\", "")
+        let sprites = JSON.parse(json)
+        onlySprites.push(sprites)
+        addSprites(onlySprites)
+      })
+    }
+  }
 
   useEffect(() => {
-    if (data != undefined) addData(data);
+    updateStore(data)
   }, [data]);
 
   const onPageChange = (pageSelected: number) => {
@@ -64,26 +79,45 @@ export const HomeView = () => {
   return (
     <main>
       <LandPage />
-
       <ContentCenter>
         <>
           <div className="text-center">
             <Title title="Pokedex" />
 
-            <div className="flex justify-between">
+            <div className="grid gap-1 grid-cols-1 sm:flex sm:justify-between">
               <InputAutoComplete />
-              <Pagination
-                className="mb-2"
-                currentPage={+page}
-                totalPages={totalPage}
-                onPageChange={onPageChange}
-              />
+
+              <div className="hidden md:block" >
+
+                <div className=" flex items-center justify-center text-center">
+                  <Pagination
+                    className="mb-2"
+                    layout="pagination"
+                    currentPage={+page}
+                    totalPages={totalPage}
+                    onPageChange={onPageChange}
+                  />
+                </div>
+              </div>
+              <div className="sm:hidden block" >
+                <div className="flex items-center justify-center text-center">
+                  <Pagination
+                    className="mb-2"
+                    layout="table"
+                    currentPage={+page}
+                    totalPages={totalPage}
+                    onPageChange={onPageChange}
+                  />
+                </div>
+
+              </div>
+
             </div>
           </div>
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <MyTable PropsPokemon={storePokemon} />
+            <PokemonsShow />
           )}
         </>
       </ContentCenter>

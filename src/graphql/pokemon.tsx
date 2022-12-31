@@ -5,7 +5,7 @@ import { usePokemonStore } from "../store/pokemon";
 //const toPage = usePokemonStore((state)=>state.toPage)
 
 
-export function get_pokemons () {
+export function get_pokemons() {
   const fromPage = usePokemonStore((state) => state.fromPage);
   const toPage = usePokemonStore((state) => state.toPage);
 
@@ -19,10 +19,17 @@ pokemon_v2_pokemon(where: {id: {_gte: ${fromPage}, _lte: ${toPage}}}) {
       name
     }
   }
+  pokemon_v2_pokemonsprites {
+    sprites
+  }
 }
 }
 `;
 
-return get_pokemons2
+  return get_pokemons2
 };
 
+
+export function all_names(){
+  
+}
