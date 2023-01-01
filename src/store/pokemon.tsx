@@ -3,6 +3,7 @@ import { devtools, persist } from "zustand/middleware";
 import { mountStoreDevtool } from "simple-zustand-devtools";
 import { PokemonGroup, Sprites } from "../models/Pokemons";
 
+
 interface PokemonStore {
   Pokemon: PokemonGroup;
   PokemonSprites: Sprites[]
@@ -20,13 +21,16 @@ interface PokemonPage {
 
 export const usePokemonStore = create<PokemonStore & PokemonPage>()(
   devtools(
-    persist(
+    
       (set) => ({
         Pokemon: {
           pokemon_v2_pokemon: [
             {
               name: "",
               id: 0,
+              pokemon_v2_pokemonsprites: [{
+                sprites: "",
+              }],
               pokemon_v2_pokemontypes: [
                 {
                   pokemon_v2_type: {
@@ -65,7 +69,7 @@ export const usePokemonStore = create<PokemonStore & PokemonPage>()(
       {
         name: "pokemon-storage",
       }
-    )
+    
   )
 );
 

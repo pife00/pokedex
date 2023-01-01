@@ -30,6 +30,24 @@ pokemon_v2_pokemon(where: {id: {_gte: ${fromPage}, _lte: ${toPage}}}) {
 };
 
 
-export function all_names(){
-  
+export function findById(id:number){
+  const pokemonById = gql `
+  query byId {
+    pokemon_v2_pokemon(where: {id: {_eq: ${id}}}) {
+      id
+      name
+      
+      pokemon_v2_pokemonsprites {
+        sprites
+      }
+
+      pokemon_v2_pokemontypes {
+        pokemon_v2_type {
+          name
+        }
+      }
+    }
+  }
+  `
+  return pokemonById
 }

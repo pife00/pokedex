@@ -38,7 +38,7 @@ export const HomeView = () => {
 
   const { loading, error, data } = useQuery(dataPokemons);
 
-  const storePokemon = usePokemonStore((state) => state.Pokemon);
+  const pokemonStore = usePokemonStore((state) => state.Pokemon);
   const addData = usePokemonStore((state) => state.addData);
   const addSprites = usePokemonStore((state) => state.addSprites)
   const handlerFrom = usePokemonStore((state) => state.handlerFrom)
@@ -46,16 +46,8 @@ export const HomeView = () => {
 
   const updateStore = async (data: PokemonGroup) => {
     if (data != undefined) {
-      addData(data);
-      let onlySprites: any[] = []
-
-      data.pokemon_v2_pokemon.map((el, index) => {
-        let rawJson = el.pokemon_v2_pokemonsprites[0].sprites
-        let json = rawJson.replace("\\", "")
-        let sprites = JSON.parse(json)
-        onlySprites.push(sprites)
-        addSprites(onlySprites)
-      })
+     addData(data);
+      
     }
   }
 
@@ -76,6 +68,10 @@ export const HomeView = () => {
     }
   };
 
+  const pokemonRecieved = (data:PokemonGroup)=>{
+    if(data != undefined)addData(data)
+  }
+
   return (
     <main>
       <LandPage />
@@ -85,7 +81,7 @@ export const HomeView = () => {
             <Title title="Pokedex" />
 
             <div className="grid gap-1 grid-cols-1 sm:flex sm:justify-between">
-              <InputAutoComplete />
+              <InputAutoComplete sendPokemon={ pokemonRecieved } />
 
               <div className="hidden md:block" >
 
@@ -117,7 +113,7 @@ export const HomeView = () => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <PokemonsShow />
+            <PokemonsShow PokemonStore={ pokemonStore } />
           )}
         </>
       </ContentCenter>
