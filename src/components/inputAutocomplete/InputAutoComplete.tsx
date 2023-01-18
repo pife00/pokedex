@@ -29,9 +29,9 @@ export const InputAutoComplete: React.FC<Props> = ({ sendPokemon }: Props) => {
 
   const searchPokemon = (msg: string) => {
     let arr: any[] = [];
-
+    let lowerMsg = msg.toLowerCase()
     list.forEach((el) => {
-      if (el.name.match(msg) != null) {
+      if (el.name.match(lowerMsg) != null) {
         arr.push(el);
       }
     });
