@@ -1,4 +1,4 @@
-# pokedex
+# Pokedex
 
 A Basic pokedes build with react,typescript and Vite as API https://pokeapi.co/
 
