@@ -112,7 +112,7 @@ export const Details = () => {
       {loading ? (
         <p>Loading ...</p>
       ) : (
-        <div className="h-screen">
+        <div className="">
           <div className="text-left sm:text-center" >
           <Title title={pokemonD.pokemon_v2_pokemon[0].name} />
           </div>

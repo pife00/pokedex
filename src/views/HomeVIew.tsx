@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ContentCenter } from "../components/contentCenter/ContentCenter";
-import { PokemonsShow } from "../components/table/PokemonsShow";
+import { PokemonsShow } from "../components/pokemonShow/PokemonsShow";
 import { Pagination } from "flowbite-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Title } from "../components/title/Title";
@@ -11,9 +11,8 @@ import { usePokemonStore } from "../store/pokemon";
 import { get_pokemons } from "../graphql/pokemon";
 import { PokemonGroup } from "../models/Pokemons";
 
-
 export const HomeView = () => {
-  const dataPokemons = get_pokemons()
+  const dataPokemons = get_pokemons();
 
   const navigate = useNavigate();
   const [totalPage, setTotalPage] = useState(0);
@@ -32,27 +31,28 @@ export const HomeView = () => {
     if (totalPage == 0) {
       totalPokemons();
     }
-
     onPageChange(+page!);
   }, [page]);
 
   const { loading, error, data } = useQuery(dataPokemons);
 
-  const pokemonStore = usePokemonStore((state) => state.Pokemon);
-  const addData = usePokemonStore((state) => state.addData);
-  const addSprites = usePokemonStore((state) => state.addSprites)
-  const handlerFrom = usePokemonStore((state) => state.handlerFrom)
-  const handlerTo = usePokemonStore((state) => state.handlerTo)
+  const pokemonStore = usePokemonStore((state) => state.PokemonToShow);
+  const pokemonPage = usePokemonStore((state) => state.PokemonPage);
+  const addDataToShow = usePokemonStore((state) => state.addDataToShow);
+  const addDataPage = usePokemonStore((state) => state.addDataPage);
+  
+  const handlerFrom = usePokemonStore((state) => state.handlerFrom);
+  const handlerTo = usePokemonStore((state) => state.handlerTo);
 
   const updateStore = async (data: PokemonGroup) => {
     if (data != undefined) {
-     addData(data);
-      
+      addDataPage(data);
+      addDataToShow(data)
     }
-  }
+  };
 
   useEffect(() => {
-    updateStore(data)
+    updateStore(data);
   }, [data]);
 
   const onPageChange = (pageSelected: number) => {
@@ -68,9 +68,15 @@ export const HomeView = () => {
     }
   };
 
-  const pokemonRecieved = (data:PokemonGroup)=>{
-    if(data != undefined)addData(data)
-  }
+  const pokemonRecieved = (data: PokemonGroup | "") => {
+    if (data != undefined && data != ''){
+      addDataToShow(data as PokemonGroup);
+    } 
+
+    if(data == ''){
+      addDataToShow(pokemonPage)
+    }
+  };
 
   return (
     <main>
@@ -81,10 +87,9 @@ export const HomeView = () => {
             <Title title="Pokedex" />
 
             <div className="grid gap-1 grid-cols-1 sm:flex sm:justify-between">
-              <InputAutoComplete sendPokemon={ pokemonRecieved } />
+              <InputAutoComplete sendPokemon={pokemonRecieved} />
 
-              <div className="hidden md:block" >
-
+              <div className="hidden md:block">
                 <div className=" flex items-center justify-center text-center">
                   <Pagination
                     className="mb-2"
@@ -95,7 +100,7 @@ export const HomeView = () => {
                   />
                 </div>
               </div>
-              <div className="sm:hidden block" >
+              <div className="sm:hidden block">
                 <div className="flex items-center justify-center text-center">
                   <Pagination
                     className="mb-2"
@@ -105,16 +110,18 @@ export const HomeView = () => {
                     onPageChange={onPageChange}
                   />
                 </div>
-
               </div>
-
             </div>
           </div>
-          {loading ? (
-            <p>Loading...</p>
+          {
+          pokemonStore.pokemon_v2_pokemon.length > 0 
+          ?<PokemonsShow PokemonStore={pokemonStore} />
+          :<p>Loading</p>
+          /* loading ? (
+            <p className="text-gray-400 m-4" >Loading...</p>
           ) : (
-            <PokemonsShow PokemonStore={ pokemonStore } />
-          )}
+            <PokemonsShow PokemonStore={pokemonStore} />
+          ) */}
         </>
       </ContentCenter>
     </main>

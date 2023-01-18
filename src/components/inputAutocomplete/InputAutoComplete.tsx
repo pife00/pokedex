@@ -11,7 +11,7 @@ interface Lista {
 }
 
 type Props = {
-  sendPokemon: (data: PokemonGroup) => void;
+  sendPokemon: (data: PokemonGroup|'') => void;
 };
 
 export const InputAutoComplete: React.FC<Props> = ({ sendPokemon }: Props) => {
@@ -20,7 +20,7 @@ export const InputAutoComplete: React.FC<Props> = ({ sendPokemon }: Props) => {
   const [queryId, setQueryId] = useState(0);
 
   const suggestionListRef: RefObject<HTMLDivElement> = useRef(null);
-
+  const inputRef = useRef<HTMLInputElement>(null)
   const { loading, error, data } = useQuery(findById(queryId));
 
   useEffect(() => {
@@ -28,18 +28,24 @@ export const InputAutoComplete: React.FC<Props> = ({ sendPokemon }: Props) => {
   }, [data]);
 
   const searchPokemon = (msg: string) => {
-    let arr: any[] = [];
-    let lowerMsg = msg.toLowerCase()
-    list.forEach((el) => {
-      if (el.name.match(lowerMsg) != null) {
-        arr.push(el);
-      }
-    });
-    setFindList(arr);
+    if(msg != ''){
+      let arr: any[] = [];
+      let lowerMsg = msg.toLowerCase()
+      list.forEach((el) => {
+        if (el.name.match(lowerMsg) != null) {
+          arr.push(el);
+        }
+      });
+      setFindList(arr);
+    }else{
+      sendPokemon('')
+    }
+
   };
 
   const choosePokemon = (data: Lista) => {
     setShowList(false);
+    inputRef.current!.value=data.name
     setQueryId(data.id);
   };
 
@@ -76,6 +82,7 @@ export const InputAutoComplete: React.FC<Props> = ({ sendPokemon }: Props) => {
   return (
     <div className="mt-1 ">
       <TextInput
+      ref={inputRef}
         onChange={(e) => searchPokemon(e.target.value)}
         onFocus={() => setShowList(true)}
         type="text"
