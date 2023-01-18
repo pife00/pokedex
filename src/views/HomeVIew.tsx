@@ -116,12 +116,8 @@ export const HomeView = () => {
           {
           pokemonStore.pokemon_v2_pokemon.length > 0 
           ?<PokemonsShow PokemonStore={pokemonStore} />
-          :<p>Loading</p>
-          /* loading ? (
-            <p className="text-gray-400 m-4" >Loading...</p>
-          ) : (
-            <PokemonsShow PokemonStore={pokemonStore} />
-          ) */}
+          :<p className="text-2xl text-gray-400" >Loading... if take so long refresh</p>
+          }
         </>
       </ContentCenter>
     </main>
