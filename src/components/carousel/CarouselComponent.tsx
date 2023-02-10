@@ -34,7 +34,7 @@ export const CarouselComponent = ({ images }: sprites) => {
         <div className="flex justify-center">
           <img
             className="w-2/3 sm:w-1/6"
-            src={images.other["official-artwork"].front_default}
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg`}
             alt="..."
           />
         </div>

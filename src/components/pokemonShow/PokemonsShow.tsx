@@ -27,12 +27,7 @@ export const PokemonsShow = ({ PokemonStore }: Props) => {
       >
         <CardPokemon
           name={pokemons.name}
-          img={
-            sprite != undefined
-            ? sprite.other["official-artwork"].front_default
-            :''
-            
-          }
+          img={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemons.id}.png`}
           type={pokemons.pokemon_v2_pokemontypes[0].pokemon_v2_type.name}
         />
       </div>
